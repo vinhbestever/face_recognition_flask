@@ -9,7 +9,8 @@ from decouple import config
 
 from apps.config import config_dict
 from apps import create_app, db
-
+from models.detector import face_detector
+from models.verifier.face_verifier import FaceVerifier
 # WARNING: Don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
@@ -25,6 +26,8 @@ except KeyError:
     exit('Error: Invalid <config_mode>. Expected values [Debug, Production] ')
 
 app = create_app(app_config)
+app.app_context().push()
+
 Migrate(app, db)
 
 if DEBUG:
@@ -33,4 +36,4 @@ if DEBUG:
     app.logger.info('DBMS        = ' + app_config.SQLALCHEMY_DATABASE_URI)
 
 if __name__ == "__main__":
-    app.run(debug=True, port=1234)
+    app.run(debug=False, port=1234)

@@ -7,7 +7,8 @@ from flask import Flask
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from importlib import import_module
-
+from models.detector import face_detector
+from models.verifier.face_verifier import FaceVerifier
 
 db = SQLAlchemy()
 login_manager = LoginManager()
@@ -41,4 +42,5 @@ def create_app(config):
     register_extensions(app)
     register_blueprints(app)
     configure_database(app)
+    
     return app
